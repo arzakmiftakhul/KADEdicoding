@@ -10,7 +10,7 @@
         android:id="@+id/image"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:src="@drawable/img_barca"/>
+        android:src="@drawable/img_chelsea"/>
 
     <TextView
         android:id="@+id/name"

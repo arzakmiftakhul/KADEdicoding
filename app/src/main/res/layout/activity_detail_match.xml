@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.DetailMatchActivity">
+
+    <ProgressBar
+        android:id="@+id/progress_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingRight="8dp"
+            android:paddingLeft="8dp">
+
+            <TextView
+                android:id="@+id/league_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="English Premier League"
+                android:layout_margin="16dp"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/date_event"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:text="2018-09-26" />
+            <TextView
+                android:id="@+id/time_event"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:text="18:00" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp">
+
+                <ImageView
+                    android:id="@+id/home_badge"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_toLeftOf="@id/home_score"
+                    android:gravity="center"/>
+                <TextView
+                    android:id="@+id/home_score"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_toLeftOf="@id/vs"
+                    android:gravity="center"
+                    android:textSize="30sp"
+                    android:textStyle="bold"
+                    android:text="0" />
+
+                <TextView
+                    android:id="@+id/vs"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:text="VS" />
+                <TextView
+                    android:id="@+id/away_score"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_toRightOf="@id/vs"
+                    android:textSize="30sp"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:text="0" />
+
+                <ImageView
+                    android:id="@+id/away_badge"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_toRightOf="@id/away_score"
+                    android:gravity="center" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/home_team"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:paddingLeft="8dp"
+                    android:text="Chelsea"
+                    android:layout_toLeftOf="@id/team"/>
+
+                <TextView
+                    android:id="@+id/team"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:text="Team"
+                    android:gravity="center"
+                    android:layout_centerInParent="true"/>
+
+                <TextView
+                    android:id="@+id/away_team"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:paddingRight="8dp"
+                    android:text="Chelsea"
+                    android:layout_toRightOf="@id/team"/>
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#d9d9d9">
+
+                <TextView
+                    android:id="@+id/home_shots"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toStartOf="@id/shots"
+                    android:gravity="left"
+                    android:paddingLeft="8dp"
+                    android:text="2" />
+
+                <TextView
+                    android:id="@+id/shots"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="Shots"
+                    android:layout_centerInParent="true"/>
+
+                <TextView
+                    android:id="@+id/away_shots"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/shots"
+                    android:gravity="right"
+                    android:paddingRight="8dp"
+                    android:text="1" />
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/home_goal_details"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toStartOf="@id/goal"
+                    android:gravity="left"
+                    android:paddingLeft="8dp"
+                    android:text="details" />
+
+                <TextView
+                    android:id="@+id/goal"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="Goal Details"
+                    android:layout_centerInParent="true"/>
+
+                <TextView
+                    android:id="@+id/away_goal_details"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/goal"
+                    android:gravity="right"
+                    android:paddingRight="8dp"
+                    android:text="details" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#d9d9d9">
+
+                <TextView
+                    android:id="@+id/home_yellow_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toStartOf="@id/yellow_card"
+                    android:gravity="left"
+                    android:paddingLeft="8dp"
+                    android:text="53':Felipe Anderson;" />
+
+                <TextView
+                    android:id="@+id/yellow_card"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:text="Yellow Card" />
+
+                <TextView
+                    android:id="@+id/away_yellow_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/yellow_card"
+                    android:gravity="right"
+                    android:paddingRight="8dp"
+                    android:text="53':Felipe Anderson;90':Robert Snodgrass;" />
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/home_red_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toStartOf="@id/red_card"
+                    android:gravity="left"
+                    android:paddingLeft="8dp"
+                    android:text="53':Felipe Anderson;" />
+
+                <TextView
+                    android:id="@+id/red_card"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:text="Red Card"
+                    android:layout_alignParentTop="true"/>
+
+                <TextView
+                    android:id="@+id/away_red_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/red_card"
+                    android:gravity="right"
+                    android:paddingRight="8dp"
+                    android:text="53':Felipe Anderson;90':Robert Snodgrass;" />
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#d9d9d9">
+
+                <TextView
+                    android:id="@+id/home_goalkeeper"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toStartOf="@id/goalkeeper"
+                    android:gravity="left"
+                    android:paddingLeft="8dp"
+                    android:text="Joe Hart;" />
+
+                <TextView
+                    android:id="@+id/goalkeeper"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="Goalkeeper"
+                    android:layout_centerInParent="true"/>
+
+                <TextView
+                    android:id="@+id/away_goalkeeper"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/goalkeeper"
+                    android:gravity="right"
+                    android:paddingRight="8dp"
+                    android:text="Joe Hart;" />
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/home_defense"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toStartOf="@id/defense"
+                    android:gravity="left"
+                    android:paddingLeft="8dp"
+                    android:text="Joe Hart;" />
+
+                <TextView
+                    android:id="@+id/defense"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="Defense"
+                    android:layout_centerInParent="true"/>
+
+                <TextView
+                    android:id="@+id/away_defense"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/defense"
+                    android:gravity="right"
+                    android:paddingRight="8dp"
+                    android:text="Joe Hart;" />
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#d9d9d9">
+
+                <TextView
+                    android:id="@+id/home_midfield"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toStartOf="@id/midfield"
+                    android:gravity="left"
+                    android:paddingLeft="8dp"
+                    android:text="Joe Hart;" />
+
+                <TextView
+                    android:id="@+id/midfield"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="Midfield"
+                    android:layout_centerInParent="true"/>
+
+                <TextView
+                    android:id="@+id/away_midfield"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/midfield"
+                    android:gravity="right"
+                    android:paddingRight="8dp"
+                    android:text="Joe Hart;" />
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/home_forward"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toStartOf="@id/forward"
+                    android:gravity="left"
+                    android:paddingLeft="8dp"
+                    android:text="Joe Hart;" />
+
+                <TextView
+                    android:id="@+id/forward"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="Forward"
+                    android:layout_centerInParent="true"/>
+
+                <TextView
+                    android:id="@+id/away_forward"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/forward"
+                    android:gravity="right"
+                    android:paddingRight="8dp"
+                    android:text="Joe Hart;" />
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#d9d9d9">
+
+                <TextView
+                    android:id="@+id/home_substitutes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toStartOf="@id/substitutes"
+                    android:gravity="left"
+                    android:paddingLeft="8dp"
+                    android:text="Joe Hart;" />
+
+                <TextView
+                    android:id="@+id/substitutes"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="Substitutes"
+                    android:layout_centerInParent="true"/>
+
+                <TextView
+                    android:id="@+id/away_substitutes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/substitutes"
+                    android:gravity="right"
+                    android:paddingRight="8dp"
+                    android:text="Joe Hart;" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+</RelativeLayout>
