@@ -1,29 +1,42 @@
 package com.miftakhularzak.footballclubapp.activity
 
+import android.database.sqlite.SQLiteConstraintException
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
+import android.view.Menu
 import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import com.google.gson.Gson
 import com.miftakhularzak.footballclubapp.R
+import com.miftakhularzak.footballclubapp.R.drawable.ic_add_to_favorite
+import com.miftakhularzak.footballclubapp.R.drawable.ic_added_to_favorite
+import com.miftakhularzak.footballclubapp.R.id.add_to_favorite
+import com.miftakhularzak.footballclubapp.R.menu.detail_menu
+import com.miftakhularzak.footballclubapp.`interface`.DetailView
 import com.miftakhularzak.footballclubapp.api.ApiRepository
-import com.miftakhularzak.footballclubapp.model.MainPresenter
+import com.miftakhularzak.footballclubapp.helper.database
+import com.miftakhularzak.footballclubapp.model.Favorite
 import com.miftakhularzak.footballclubapp.model.Match
 import com.miftakhularzak.footballclubapp.model.Team
-import com.miftakhularzak.footballclubapp.util.MainView
+import com.miftakhularzak.footballclubapp.presenter.DetailPresenter
+import com.miftakhularzak.footballclubapp.util.DateAndTimeFormatter
 import com.miftakhularzak.footballclubapp.util.invisible
 import com.miftakhularzak.footballclubapp.util.visible
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_detail_match.*
-import java.text.SimpleDateFormat
-import java.util.*
+import org.jetbrains.anko.db.classParser
+import org.jetbrains.anko.db.delete
+import org.jetbrains.anko.db.insert
+import org.jetbrains.anko.db.select
+import org.jetbrains.anko.design.snackbar
 
-class DetailMatchActivity : AppCompatActivity(), MainView {
+class DetailMatchActivity : AppCompatActivity(), DetailView {
 
-    lateinit var date: TextView
+
+    lateinit var dateEvent: TextView
     lateinit var time: TextView
     lateinit var homeBadge: ImageView
     lateinit var awayBadge: ImageView
@@ -50,18 +63,27 @@ class DetailMatchActivity : AppCompatActivity(), MainView {
     lateinit var homeSubtitutes: TextView
     lateinit var awaySubstitutes: TextView
 
-    private lateinit var presenter: MainPresenter
+    private lateinit var presenter: DetailPresenter
     lateinit var progressBar: ProgressBar
+    lateinit var homeId : String
+    lateinit var awayId : String
+    lateinit var eventId : String
+
+    private var menuItem: Menu? = null
+    private var isFavorite: Boolean = false
+    private lateinit var id : String
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail_match)
+        val intent = intent
+        id = intent.getStringExtra("id")
         supportActionBar?.title = "Match Detail"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
 
-        date = date_event
+        dateEvent = date_event
         time = time_event
         homeBadge = home_badge
         awayBadge = away_badge
@@ -89,81 +111,129 @@ class DetailMatchActivity : AppCompatActivity(), MainView {
         awaySubstitutes = away_substitutes
 
         progressBar = progress_detail as ProgressBar
+
         val request = ApiRepository()
         val gson = Gson()
-        presenter = MainPresenter(this, request, gson)
 
-        //presenter.getTeamList("134778")
-
-
-        val bundle = intent.getBundleExtra("match_detail_bundle")
-        val events = bundle.getParcelable("match_detail") as Match
-
-        val oldDateFormat = SimpleDateFormat("yyyy-MM-dd").parse(events.dateEvent)
-        val newDateFormat = SimpleDateFormat("E , dd MMM yyyy").format(oldDateFormat)
-
-        val oldTimeFormat = SimpleDateFormat("HH:mm:ss")
-        oldTimeFormat.timeZone = TimeZone.getTimeZone("UTC")
-        val timeEvent = oldTimeFormat.parse(events.timeEvent)
-        val newTimeFormat = SimpleDateFormat("HH:mm", Locale.getDefault()).format(timeEvent)
-
-        date.text = newDateFormat
-        time.text = newTimeFormat
-        homeTeam.text = events.homeTeam
-        awayTeam.text = events.awayTeam
-        homeScore.text = events.homeScore
-        awayScore.text = events.awayScore
-        homeShots.text = events.homeShots
-        awayShots.text = events.awayShots
-        homeGoalDetails.text = events.homeGoalDetails
-        awayGoalDetails.text = events.awayGoalDetails
-        homeYellowCards.text = events.homeYellowCards
-        awayYellowCards.text = events.awayYellowCards
-        homeRedCards.text = events.homeRedCards
-        awayRedCards.text = events.awayRedCards
-        homeGoalkeeper.text = events.homeLineupGoalkeeper
-        awayGoalkeeper.text = events.awayLineupGoalkeeper
-        homeDefense.text = events.homeLineupDefense
-        awayDefense.text = events.awayLineupDefense
-        homeMidfield.text = events.homeLineupMidfield
-        awayMidfield.text = events.awayLineupMidfield
-        homeForward.text = events.homeLineupForward
-        awayForward.text = events.awayLineupForward
-        homeSubtitutes.text = events.homeLineupSubstitutes
-        awaySubstitutes.text = events.awayLineupSubstitutes
-
-        homeForward.text = events.homeLineupForward
-        awayForward.text = events.awayLineupForward
+        presenter = DetailPresenter(this,request,gson)
 
 
-        presenter.getTeamList(events.idHome, events.idAway)
-        Log.d("PARCEL", "parcel" + events.homeTeam + " vs " + events.awayTeam)
+         eventId = intent.getStringExtra("eventid")
+         homeId = intent.getStringExtra("homeid")
+         awayId = intent.getStringExtra("awayid")
+
+        favoriteState()
+
+        presenter.getDetailMatch(eventId,homeId,awayId)
 
     }
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(detail_menu,menu)
+        menuItem = menu
+        setFavorite()
+        return true
+    }
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        return if (item?.itemId == android.R.id.home) {
-            finish()
-            true
-        } else {
-            super.onOptionsItemSelected(item)
+        return when (item?.itemId) {
+            android.R.id.home -> {
+                finish()
+                true
+            }
+            add_to_favorite -> {
+                if (isFavorite) removeFromFavorite()
+                else addToFavorite()
+
+                isFavorite = !isFavorite
+                setFavorite()
+                true
+            }
+
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+    private fun addToFavorite(){
+        try {
+            database.use {
+                insert(Favorite.TABLE_FAVORITE,
+                        Favorite.EVENT_ID to eventId,
+                        Favorite.HOME_ID to homeId,
+                        Favorite.AWAY_ID to awayId,
+                        Favorite.HOME_TEAM to homeTeam.text,
+                        Favorite.AWAY_TEAM to awayTeam.text,
+                        Favorite.HOME_SCORE to homeScore.text,
+                        Favorite.AWAY_SCORE to awayScore.text,
+                        Favorite.DATE_EVENT to dateEvent.text,
+                        Favorite.TIME_EVENT to time.text)
+            }
+            snackbar(RL, "Added to favorite").show()
+        } catch (e: SQLiteConstraintException){
+            snackbar(RL, e.localizedMessage).show()
+
         }
     }
 
-    override fun showEventList(data: List<Match>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    private fun removeFromFavorite(){
+        try{
+            database.use {
+                delete(Favorite.TABLE_FAVORITE,"(EVENT_ID = {id})","id" to id)
+            }
+            snackbar(RL, "Removed from favorite").show()
+        }catch (e:SQLiteConstraintException){
+            snackbar(RL, e.localizedMessage).show()
+        }
     }
+    private fun setFavorite(){
+        if(isFavorite)
+            menuItem?.getItem(0)?.icon = ContextCompat.getDrawable(this, ic_added_to_favorite)
+        else
+            menuItem?.getItem(0)?.icon = ContextCompat.getDrawable(this, ic_add_to_favorite)
+    }
+    private fun favoriteState(){
+        database.use {
+            val result = select(Favorite.TABLE_FAVORITE).whereArgs("(EVENT_ID = {id})",
+                    "id" to id)
+            val favorite = result.parseList(classParser<Favorite>())
+            if(!favorite.isEmpty()) isFavorite = true
+        }
+    }
+
+
 
     override fun hideLoading() {
         progressBar.invisible()
+    }
+    override fun showDetailMatch(data1: List<Match>, data2: List<Team>, data3: List<Team>) {
+        dateEvent.text = DateAndTimeFormatter().toSimpleStringDate(data1[0].dateEvent)
+        time.text = DateAndTimeFormatter().toSimpleStringTime(data1[0].timeEvent)
+        homeTeam.text = data2[0].teamName
+        awayTeam.text = data3[0].teamName
+        Picasso.get().load(data2[0].teamBadge).into(homeBadge)
+        Picasso.get().load(data3[0].teamBadge).into(awayBadge)
+        homeScore.text = data1[0].homeScore
+        awayScore.text = data1[0].awayScore
+        homeShots.text = data1[0].homeShots
+        awayShots.text = data1[0].awayShots
+        homeGoalDetails.text = data1[0].homeGoalDetails
+        awayGoalDetails.text = data1[0].awayGoalDetails
+        homeYellowCards.text = data1[0].homeYellowCards
+        awayYellowCards.text = data1[0].awayYellowCards
+        homeRedCards.text = data1[0].homeRedCards
+        awayRedCards.text = data1[0].awayRedCards
+        homeGoalkeeper.text = data1[0].homeLineupGoalkeeper
+        awayGoalkeeper.text = data1[0].awayLineupGoalkeeper
+        homeDefense.text = data1[0].homeLineupDefense
+        awayDefense.text = data1[0].awayLineupDefense
+        homeForward.text = data1[0].homeLineupForward
+        awayForward.text = data1[0].awayLineupForward
+        homeSubtitutes.text = data1[0].homeLineupSubstitutes
+        awaySubstitutes.text = data1[0].awayLineupSubstitutes
+        homeMidfield.text = data1[0].homeLineupMidfield
+        awayMidfield.text = data1[0].awayLineupMidfield
+
     }
 
     override fun showLoading() {
         progressBar.visible()
     }
 
-    override fun showTeamHome(data: List<Team>, data2: List<Team>) {
-        Picasso.get().load(data.get(0).teamBadge).into(homeBadge)
-        Picasso.get().load(data2.get(0).teamBadge).into(awayBadge)
-
-    }
 }

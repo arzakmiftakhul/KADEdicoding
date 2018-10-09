@@ -1,68 +1,73 @@
 package com.miftakhularzak.footballclubapp.activity
 
 import android.os.Bundle
-import android.support.design.widget.TabLayout
-import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
-import com.google.gson.Gson
 import com.miftakhularzak.footballclubapp.R
-import com.miftakhularzak.footballclubapp.adapter.MainAdapter
-import com.miftakhularzak.footballclubapp.adapter.MatchAdapter
-import com.miftakhularzak.footballclubapp.api.ApiRepository
-import com.miftakhularzak.footballclubapp.model.MainPresenter
-import com.miftakhularzak.footballclubapp.model.Match
-import com.miftakhularzak.footballclubapp.model.Team
-import com.miftakhularzak.footballclubapp.util.MainView
+import com.miftakhularzak.footballclubapp.R.id.*
+import com.miftakhularzak.footballclubapp.fragments.FavoriteMatchFragment
+import com.miftakhularzak.footballclubapp.fragments.MatchFragment
+import com.miftakhularzak.footballclubapp.fragments.NextMatchFragment
+import com.miftakhularzak.footballclubapp.fragments.PrevMatchFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-class MainActivity : AppCompatActivity(), MainView {
-
-    private var teams: MutableList<Team> = mutableListOf()
-    private lateinit var presenter: MainPresenter
-    private lateinit var adapter: MainAdapter
-    //private lateinit var swipeRefresh: SwipeRefreshLayout
-
+class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val tabLayout: TabLayout = tab_layout
-        val viewPager: ViewPager = view_pager
-        val adapter = MatchAdapter(supportFragmentManager)
+        bottom_navigation.setOnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                next_match_bt -> {
+                    loadNextMatchFragment(savedInstanceState)
+                   // loadMatchFragment(savedInstanceState)
+                }
+                prev_match_bt -> {
+                    loadPrevMatchFragment(savedInstanceState)
 
-        viewPager.adapter = adapter
-        tabLayout.setupWithViewPager(viewPager)
-        val request = ApiRepository()
-        val gson = Gson()
-        presenter = MainPresenter(this, request, gson)
+                }
+                fav_match_bt ->{
+                    loadFavMatchFragment(savedInstanceState)
+
+                }
+            }
+            true
+        }
+        bottom_navigation.selectedItemId = next_match_bt
+    }
+    private fun loadNextMatchFragment(savedInstanceState: Bundle?) {
+        if (savedInstanceState == null) {
+            supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.main_container, NextMatchFragment(), NextMatchFragment::class.java.simpleName)
+                    .commit()
+        }
     }
 
-    override fun showLoading() {
-        Log.d("CEKDATA", "SHOWLOADING")
-
+    private fun loadPrevMatchFragment(savedInstanceState: Bundle?) {
+        if (savedInstanceState == null) {
+            supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.main_container, PrevMatchFragment(), PrevMatchFragment::class.java.simpleName)
+                    .commit()
+        }
     }
-
-    override fun hideLoading() {
-        Log.d("CEKDATA", "hIDE LOADING")
-
+    private fun loadFavMatchFragment(savedInstanceState: Bundle?) {
+        if (savedInstanceState == null) {
+            supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.main_container, FavoriteMatchFragment(), FavoriteMatchFragment::class.java.simpleName)
+                    .commit()
+        }
     }
-
-    override fun showTeamHome(data: List<Team>, data2: List<Team>) {
-       // swipeRefresh.isRefreshing = false
-        teams.clear()
-        teams.addAll(data)
-        adapter.notifyDataSetChanged()
-        Log.d("CEKDATA", "SHOW CLUB LIST" + teams[1].teamName)
-
+    private fun loadMatchFragment(savedInstanceState: Bundle?) {
+        if (savedInstanceState == null) {
+            supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.main_container, MatchFragment(), MatchFragment::class.java.simpleName)
+                    .commit()
+        }
     }
-
-    override fun showEventList(data: List<Match>) {
-        Log.d("DATA EVENT", "SHOW EVENT LIST" + data[1])
-    }
-
-
 }
 
 

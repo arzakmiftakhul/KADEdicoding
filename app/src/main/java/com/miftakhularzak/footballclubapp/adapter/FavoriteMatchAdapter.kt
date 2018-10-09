@@ -7,36 +7,32 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
-import com.miftakhularzak.footballclubapp.R.id.*
-import com.miftakhularzak.footballclubapp.model.Match
-import com.miftakhularzak.footballclubapp.util.DateAndTimeFormatter
+import com.miftakhularzak.footballclubapp.R
+import com.miftakhularzak.footballclubapp.model.Favorite
 import org.jetbrains.anko.*
 import org.jetbrains.anko.cardview.v7.cardView
 
-class MainAdapter(private val events: List<Match>, private val listener: (Match) -> Unit) : RecyclerView.Adapter<ClubViewHolder>() {
-
-    var clickedIndex: Int = 0
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ClubViewHolder {
-        return ClubViewHolder(TeamUI().createView(AnkoContext.create(parent.context, parent)))
+class FavoriteMatchAdapter (private val favorite : List<Favorite>, private val listener : (Favorite)->Unit):
+        RecyclerView.Adapter<FavoriteViewHolder>(){
+    var clickedIndex : Int = 0
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteViewHolder {
+        return FavoriteViewHolder(MatchUI().createView(AnkoContext.create(parent.context,parent)))
     }
 
+    override fun getItemCount(): Int = favorite.size
 
-    override fun onBindViewHolder(holder: ClubViewHolder, position: Int) {
-        holder.bindItem(events[position], listener)
+    override fun onBindViewHolder(holder: FavoriteViewHolder, position: Int) {
+        holder.bindItem(favorite[position],listener)
         holder.itemView.setOnClickListener {
             clickedIndex = position
-            listener(events[position])
+            listener(favorite[position])
         }
-
     }
 
-    override fun getItemCount(): Int = events.size
 }
-
-class TeamUI : AnkoComponent<ViewGroup> {
+class MatchUI : AnkoComponent<ViewGroup>{
     override fun createView(ui: AnkoContext<ViewGroup>): View {
-
-        return with(ui) {
+        return with(ui){
             cardView {
                 lparams(width = matchParent, height = wrapContent)
                 cardElevation = 3f
@@ -44,11 +40,11 @@ class TeamUI : AnkoComponent<ViewGroup> {
                 useCompatPadding = true
                 linearLayout {
                     lparams(width = matchParent, height = wrapContent)
-                    padding = dip(16)
+                    padding = dip(8)
                     orientation = LinearLayout.VERTICAL
 
                     textView {
-                        id = event_date
+                        id = R.id.fav_date
                         textSize = 14f
                         gravity = Gravity.CENTER_HORIZONTAL
                     }.lparams(width = matchParent, height = wrapContent) {
@@ -57,23 +53,23 @@ class TeamUI : AnkoComponent<ViewGroup> {
                     relativeLayout {
 
                         textView {
-                            id = home_team_name
+                            id = R.id.fav_home_team
                             textSize = 20f
                             maxLines = 1
                             ellipsize = TextUtils.TruncateAt.END
 
                         }.lparams {
-                            leftOf(home_score)
+                            leftOf(R.id.fav_home_score)
                         }
                         textView {
-                            id = home_score
+                            id = R.id.fav_home_score
                             textSize = 20f
                         }.lparams {
-                            leftOf(vs)
+                            leftOf(R.id.fav_vs)
                             horizontalMargin = dip(20)
                         }
                         textView {
-                            id = vs
+                            id = R.id.fav_vs
                             textSize = 10f
                             text = "VS"
                             gravity = Gravity.CENTER_HORIZONTAL
@@ -84,24 +80,24 @@ class TeamUI : AnkoComponent<ViewGroup> {
 
                         }
                         textView {
-                            id = away_score
+                            id = R.id.fav_away_score
                             textSize = 20f
                         }.lparams {
-                            rightOf(vs)
+                            rightOf(R.id.fav_vs)
                             horizontalMargin = dip(20)
                         }
 
                         textView {
-                            id = away_team_name
+                            id = R.id.fav_away_team
                             textSize = 20f
                             maxLines = 1
                             ellipsize = TextUtils.TruncateAt.END
                         }.lparams {
-                            rightOf(away_score)
+                            rightOf(R.id.fav_away_score)
                         }
                     }
                     textView {
-                        id = event_time
+                        id = R.id.fav_time
                         textSize = 14f
                         gravity = Gravity.CENTER_HORIZONTAL
                         text = "abcd"
@@ -118,24 +114,20 @@ class TeamUI : AnkoComponent<ViewGroup> {
 
 }
 
-class ClubViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    private val homeTeamName: TextView = view.find(home_team_name)
-    private val awayTeamName: TextView = view.find(away_team_name)
-    private val eventDate: TextView = view.find(event_date)
-    private val eventTime: TextView = view.find(event_time)
-    private val homeScore: TextView = view.find(home_score)
-    private val awayScore: TextView = view.find(away_score)
-
-
-    fun bindItem(events: Match, listener: (Match) -> Unit) {
-        homeTeamName.text = events.homeTeam
-        awayTeamName.text = events.awayTeam
-        eventDate.text = DateAndTimeFormatter().toSimpleStringDate(events.dateEvent)
-        eventTime.text = DateAndTimeFormatter().toSimpleStringTime(events.timeEvent)
-        homeScore.text = events.homeScore
-        awayScore.text = events.awayScore
+class FavoriteViewHolder(view : View) : RecyclerView.ViewHolder(view){
+    private val homeTeamName: TextView = view.find(R.id.fav_home_team)
+    private val awayTeamName: TextView = view.find(R.id.fav_away_team)
+    private val eventDate: TextView = view.find(R.id.fav_date)
+    private val eventTime: TextView = view.find(R.id.fav_time)
+    private val homeScore: TextView = view.find(R.id.fav_home_score)
+    private val awayScore: TextView = view.find(R.id.fav_away_score)
+    fun bindItem(favorite: Favorite, listener: (Favorite) -> Unit){
+        homeTeamName.text = favorite.homeTeam
+        awayTeamName.text = favorite.awayTeam
+        eventDate.text = favorite.dateEvent
+        eventTime.text = favorite.timeEvent
+        homeScore.text = favorite.homeScore
+        awayScore.text = favorite.awayScore
 
     }
-
-
 }

@@ -1,10 +1,7 @@
 package com.miftakhularzak.footballclubapp.model
 
-import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import kotlinx.android.parcel.Parcelize
 
-@Parcelize
 data class Match (
     @SerializedName ("idEvent")
     var eventId : String? = null,
@@ -19,9 +16,9 @@ data class Match (
     @SerializedName ("strTime")
     var timeEvent : String? = null,
     @SerializedName ("idHomeTeam")
-    var idHome : String? = null,
+    var homeId : String? = null,
     @SerializedName ("idAwayTeam")
-    var idAway : String? = null,
+    var awayId : String? = null,
     @SerializedName ("strTeamBadge")
     var homeTeamBadge : String? = null,
     @SerializedName ("intHomeScore")
@@ -66,4 +63,4 @@ data class Match (
     var awayLineupForward : String? = null,
     @SerializedName ("strAwayLineupSubstitutes")
     var awayLineupSubstitutes : String? = null
-):Parcelable
+)

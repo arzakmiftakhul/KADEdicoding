@@ -18,4 +18,14 @@
     <item name="vs" type="id"/>
     <item name="home_score" type="id"/>
     <item name="away_score" type="id"/>
+    <item name="fav_home_team" type="id"/>
+    <item name="fav_away_team" type="id"/>
+    <item name="fav_home_score" type="id"/>
+    <item name="fav_away_score" type="id"/>
+    <item name="fav_date" type="id"/>
+    <item name="fav_time" type="id"/>
+    <item name="fav_vs" type="id"/>
+    <item name="list_fav_match" type="id"/>
+    <item name="swipe_refresh" type="id"/>
+
 </resources>

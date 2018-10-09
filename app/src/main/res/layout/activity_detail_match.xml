@@ -4,20 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/RL"
     tools:context=".activity.DetailMatchActivity">
-
-    <ProgressBar
-        android:id="@+id/progress_detail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingRight="8dp"
             android:paddingLeft="8dp">
@@ -27,7 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="English Premier League"
+                android:text="@string/league_name"
                 android:layout_margin="16dp"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -37,14 +32,14 @@
                 android:layout_height="match_parent"
                 android:layout_centerInParent="true"
                 android:gravity="center"
-                android:text="2018-09-26" />
+                android:text="" />
             <TextView
                 android:id="@+id/time_event"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_centerInParent="true"
                 android:gravity="center"
-                android:text="18:00" />
+                android:text="" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -73,7 +68,7 @@
                     android:layout_height="match_parent"
                     android:layout_centerInParent="true"
                     android:gravity="center"
-                    android:text="VS" />
+                    android:text="@string/vs" />
                 <TextView
                     android:id="@+id/away_score"
                     android:layout_width="wrap_content"
@@ -103,14 +98,14 @@
                     android:layout_height="wrap_content"
                     android:gravity="left"
                     android:paddingLeft="8dp"
-                    android:text="Chelsea"
+                    android:text=""
                     android:layout_toLeftOf="@id/team"/>
 
                 <TextView
                     android:id="@+id/team"
                     android:layout_width="100dp"
                     android:layout_height="match_parent"
-                    android:text="Team"
+                    android:text="@string/team"
                     android:gravity="center"
                     android:layout_centerInParent="true"/>
 
@@ -120,7 +115,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="right"
                     android:paddingRight="8dp"
-                    android:text="Chelsea"
+                    android:text=""
                     android:layout_toRightOf="@id/team"/>
 
             </RelativeLayout>
@@ -136,14 +131,14 @@
                     android:layout_toStartOf="@id/shots"
                     android:gravity="left"
                     android:paddingLeft="8dp"
-                    android:text="2" />
+                    android:text="" />
 
                 <TextView
                     android:id="@+id/shots"
                     android:layout_width="100dp"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="Shots"
+                    android:text="@string/shots"
                     android:layout_centerInParent="true"/>
 
                 <TextView
@@ -153,7 +148,7 @@
                     android:layout_toEndOf="@id/shots"
                     android:gravity="right"
                     android:paddingRight="8dp"
-                    android:text="1" />
+                    android:text="" />
 
             </RelativeLayout>
             <RelativeLayout
@@ -165,16 +160,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_toStartOf="@id/goal"
-                    android:gravity="left"
+                    android:gravity="start"
                     android:paddingLeft="8dp"
-                    android:text="details" />
+                    android:text="" />
 
                 <TextView
                     android:id="@+id/goal"
                     android:layout_width="100dp"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="Goal Details"
+                    android:text="@string/goal_details"
                     android:layout_centerInParent="true"/>
 
                 <TextView
@@ -182,9 +177,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_toEndOf="@id/goal"
-                    android:gravity="right"
+                    android:gravity="end"
                     android:paddingRight="8dp"
-                    android:text="details" />
+                    android:text="" />
 
             </RelativeLayout>
 
@@ -198,9 +193,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_toStartOf="@id/yellow_card"
-                    android:gravity="left"
+                    android:gravity="start"
                     android:paddingLeft="8dp"
-                    android:text="53':Felipe Anderson;" />
+                    android:text="" />
 
                 <TextView
                     android:id="@+id/yellow_card"
@@ -208,16 +203,16 @@
                     android:layout_height="match_parent"
                     android:layout_centerInParent="true"
                     android:gravity="center"
-                    android:text="Yellow Card" />
+                    android:text="@string/yellow_card" />
 
                 <TextView
                     android:id="@+id/away_yellow_card"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_toEndOf="@id/yellow_card"
-                    android:gravity="right"
+                    android:gravity="end"
                     android:paddingRight="8dp"
-                    android:text="53':Felipe Anderson;90':Robert Snodgrass;" />
+                    android:text="" />
 
             </RelativeLayout>
             <RelativeLayout
@@ -229,9 +224,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_toStartOf="@id/red_card"
-                    android:gravity="left"
+                    android:gravity="start"
                     android:paddingLeft="8dp"
-                    android:text="53':Felipe Anderson;" />
+                    android:text="" />
 
                 <TextView
                     android:id="@+id/red_card"
@@ -239,7 +234,7 @@
                     android:layout_height="match_parent"
                     android:layout_centerInParent="true"
                     android:gravity="center"
-                    android:text="Red Card"
+                    android:text="@string/red_card"
                     android:layout_alignParentTop="true"/>
 
                 <TextView
@@ -247,9 +242,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_toEndOf="@id/red_card"
-                    android:gravity="right"
+                    android:gravity="end"
                     android:paddingRight="8dp"
-                    android:text="53':Felipe Anderson;90':Robert Snodgrass;" />
+                    android:text="" />
 
             </RelativeLayout>
             <RelativeLayout
@@ -262,16 +257,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_toStartOf="@id/goalkeeper"
-                    android:gravity="left"
+                    android:gravity="start"
                     android:paddingLeft="8dp"
-                    android:text="Joe Hart;" />
+                    android:text="" />
 
                 <TextView
                     android:id="@+id/goalkeeper"
                     android:layout_width="100dp"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="Goalkeeper"
+                    android:text="@string/goalkeeper"
                     android:layout_centerInParent="true"/>
 
                 <TextView
@@ -279,9 +274,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_toEndOf="@id/goalkeeper"
-                    android:gravity="right"
+                    android:gravity="end"
                     android:paddingRight="8dp"
-                    android:text="Joe Hart;" />
+                    android:text="" />
 
             </RelativeLayout>
             <RelativeLayout
@@ -293,16 +288,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_toStartOf="@id/defense"
-                    android:gravity="left"
+                    android:gravity="start"
                     android:paddingLeft="8dp"
-                    android:text="Joe Hart;" />
+                    android:text="" />
 
                 <TextView
                     android:id="@+id/defense"
                     android:layout_width="100dp"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="Defense"
+                    android:text="@string/defense"
                     android:layout_centerInParent="true"/>
 
                 <TextView
@@ -310,9 +305,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_toEndOf="@id/defense"
-                    android:gravity="right"
+                    android:gravity="end"
                     android:paddingRight="8dp"
-                    android:text="Joe Hart;" />
+                    android:text="" />
 
             </RelativeLayout>
             <RelativeLayout
@@ -325,16 +320,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_toStartOf="@id/midfield"
-                    android:gravity="left"
+                    android:gravity="start"
                     android:paddingLeft="8dp"
-                    android:text="Joe Hart;" />
+                    android:text="" />
 
                 <TextView
                     android:id="@+id/midfield"
                     android:layout_width="100dp"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="Midfield"
+                    android:text="@string/midfield"
                     android:layout_centerInParent="true"/>
 
                 <TextView
@@ -342,9 +337,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_toEndOf="@id/midfield"
-                    android:gravity="right"
+                    android:gravity="end"
                     android:paddingRight="8dp"
-                    android:text="Joe Hart;" />
+                    android:text="" />
 
             </RelativeLayout>
             <RelativeLayout
@@ -356,16 +351,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_toStartOf="@id/forward"
-                    android:gravity="left"
+                    android:gravity="start"
                     android:paddingLeft="8dp"
-                    android:text="Joe Hart;" />
+                    android:text="" />
 
                 <TextView
                     android:id="@+id/forward"
                     android:layout_width="100dp"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="Forward"
+                    android:text="@string/forward"
                     android:layout_centerInParent="true"/>
 
                 <TextView
@@ -373,9 +368,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_toEndOf="@id/forward"
-                    android:gravity="right"
+                    android:gravity="end"
                     android:paddingRight="8dp"
-                    android:text="Joe Hart;" />
+                    android:text="" />
 
             </RelativeLayout>
             <RelativeLayout
@@ -388,16 +383,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_toStartOf="@id/substitutes"
-                    android:gravity="left"
+                    android:gravity="start"
                     android:paddingLeft="8dp"
-                    android:text="Joe Hart;" />
+                    android:text="" />
 
                 <TextView
                     android:id="@+id/substitutes"
                     android:layout_width="100dp"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="Substitutes"
+                    android:text="@string/substitutes"
                     android:layout_centerInParent="true"/>
 
                 <TextView
@@ -405,15 +400,20 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_toEndOf="@id/substitutes"
-                    android:gravity="right"
+                    android:gravity="end"
                     android:paddingRight="8dp"
-                    android:text="Joe Hart;" />
+                    android:text="" />
 
             </RelativeLayout>
 
         </LinearLayout>
 
     </ScrollView>
+    <ProgressBar
+        android:id="@+id/progress_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" />
 
 
 </RelativeLayout>
