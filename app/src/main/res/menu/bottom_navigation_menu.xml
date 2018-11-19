@@ -2,20 +2,20 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/next_match_bt"
+        android:id="@+id/match_button"
         android:enabled="true"
-        android:title="@string/next_match"
-        android:icon="@drawable/ic_next_match"
+        android:title="@string/match"
+        android:icon="@drawable/ic_match"
         app:showAsAction="ifRoom"/>
 
     <item
-        android:id="@+id/prev_match_bt"
+        android:id="@+id/team_button"
         android:enabled="true"
         android:icon="@drawable/ic_next_match"
-        android:title="@string/prev_match"
+        android:title="@string/teams"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/fav_match_bt"
+        android:id="@+id/fav_button"
         android:enabled="true"
         android:icon="@drawable/ic_prev_match"
         android:title="@string/fav_match"

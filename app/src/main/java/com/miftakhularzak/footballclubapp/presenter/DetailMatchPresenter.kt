@@ -9,10 +9,10 @@ import com.miftakhularzak.footballclubapp.model.TeamResponse
 import kotlinx.coroutines.experimental.async
 import org.jetbrains.anko.coroutines.experimental.bg
 
-class DetailPresenter(private val view : DetailView,
-                      private val apiRepository: ApiRepository,
-                      private val gson: Gson,
-                      private val context : CoroutineContextProvider
+class DetailMatchPresenter(private val view : DetailView,
+                           private val apiRepository: ApiRepository,
+                           private val gson: Gson,
+                           private val context : CoroutineContextProvider
                       = CoroutineContextProvider()) {
     fun getDetailMatch(eventId : String?, homeId : String?, awayId : String?){
         view.showLoading()

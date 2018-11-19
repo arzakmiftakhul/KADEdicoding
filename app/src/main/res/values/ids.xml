@@ -26,6 +26,13 @@
     <item name="fav_time" type="id"/>
     <item name="fav_vs" type="id"/>
     <item name="list_fav_match" type="id"/>
+    <item name="swipe_refresh_team" type="id"/>
     <item name="swipe_refresh" type="id"/>
+    <item name="team_overview_adapter" type="id" />
+    <item name="player_photo" type="id" />
+    <item name="player_name" type="id" />
+    <item name="player_position" type="id" />
+    <item name="list_fav_team" type="id" />
+    <item name="team_league" type="id" />
 
 </resources>

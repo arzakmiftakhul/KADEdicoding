@@ -8,14 +8,15 @@ import com.miftakhularzak.footballclubapp.model.Match
 import com.miftakhularzak.footballclubapp.model.MatchResponse
 import com.miftakhularzak.footballclubapp.model.Team
 import com.miftakhularzak.footballclubapp.model.TeamResponse
+import kotlinx.coroutines.experimental.runBlocking
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mock
+import org.mockito.Mockito
 import org.mockito.Mockito.`when`
-import org.mockito.Mockito.verify
 import org.mockito.MockitoAnnotations
 
-class DetailPresenterTest {
+class DetailMatchPresenterTest {
     @Mock
     private
     lateinit var view: DetailView
@@ -28,12 +29,12 @@ class DetailPresenterTest {
     private
     lateinit var apiRepository: ApiRepository
 
-    private lateinit var presenter: DetailPresenter
+    private lateinit var matchPresenter: DetailMatchPresenter
 
     @Before
     fun setUp(){
         MockitoAnnotations.initMocks(this)
-        presenter = DetailPresenter(view, apiRepository,gson, TestContextProvider())
+        matchPresenter = DetailMatchPresenter(view, apiRepository,gson, TestContextProvider())
     }
     @Test
     fun testGetDetailMatch(){
@@ -44,7 +45,7 @@ class DetailPresenterTest {
         val homeBadgeResponse = TeamResponse(homeTeams)
         val awayBadgeResponse = TeamResponse(awayTeams)
         val eventId = "576536"
-        val homeId = "133604"
+        val homeId = "604133"
         val awayId = "133624"
 
         `when`(gson.fromJson(apiRepository.
@@ -56,11 +57,14 @@ class DetailPresenterTest {
         `when`(gson.fromJson(apiRepository.
                 doRequest(TheSportDBApi.getTeams(awayId)),
                 TeamResponse::class.java)).thenReturn(awayBadgeResponse)
+        runBlocking {
+            matchPresenter.getDetailMatch(eventId,homeId,awayId)
+        }
 
-        presenter.getDetailMatch(eventId,homeId,awayId)
 
-        verify(view).showLoading()
-        verify(view).showDetailMatch(events,homeTeams,awayTeams)
-        verify(view).hideLoading()
+
+        Mockito.verify(view).showLoading()
+        Mockito.verify(view).showDetailMatch(events,homeTeams,awayTeams)
+        Mockito.verify(view).hideLoading()
     }
 }

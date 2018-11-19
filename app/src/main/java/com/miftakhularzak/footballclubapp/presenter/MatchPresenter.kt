@@ -13,14 +13,13 @@ class MatchPresenter(private val view : MatchView,
                      private val gson : Gson,
                      private val context : CoroutineContextProvider
                                 = CoroutineContextProvider()) {
-    fun getMatchList(leagueId : String?, events : String?){
+     fun getMatchList(leagueId : String?, events : String?){
         view.showLoading()
         async(context.main){
             val data = bg {
                 gson.fromJson(apiRepository.
                     doRequest(TheSportDBApi.getMatch(leagueId, events)),
                         MatchResponse::class.java)
-//            Log.d("loading","loading")
             }
             view.showMatchList(data.await().events)
             view.hideLoading()

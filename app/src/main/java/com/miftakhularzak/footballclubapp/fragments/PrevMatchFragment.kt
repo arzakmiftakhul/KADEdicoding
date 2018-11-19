@@ -9,18 +9,22 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.ProgressBar
+import android.widget.Spinner
 import com.google.gson.Gson
 import com.miftakhularzak.footballclubapp.R
 import com.miftakhularzak.footballclubapp.`interface`.MatchView
 import com.miftakhularzak.footballclubapp.activity.DetailMatchActivity
-import com.miftakhularzak.footballclubapp.adapter.MainAdapter
+import com.miftakhularzak.footballclubapp.adapter.MatchAdapter
 import com.miftakhularzak.footballclubapp.api.ApiRepository
 import com.miftakhularzak.footballclubapp.model.Match
 import com.miftakhularzak.footballclubapp.presenter.MatchPresenter
 import com.miftakhularzak.footballclubapp.util.invisible
 import com.miftakhularzak.footballclubapp.util.visible
 import kotlinx.android.synthetic.main.fragment_prev_match.*
+import org.jetbrains.anko.support.v4.ctx
 
 
 /**
@@ -28,12 +32,13 @@ import kotlinx.android.synthetic.main.fragment_prev_match.*
  *
  */
 class PrevMatchFragment : Fragment(), MatchView {
-    private lateinit var adapter: MainAdapter
+    private lateinit var adapter: MatchAdapter
     private lateinit var presenter: MatchPresenter
     var progressBar: ProgressBar? = null
 
     private var events: MutableList<Match> = mutableListOf()
     private lateinit var listEvents: RecyclerView
+    private lateinit var spinner: Spinner
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -49,18 +54,38 @@ class PrevMatchFragment : Fragment(), MatchView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
         progressBar = progressbar_last_match
+        spinner = spinner_prev_match as Spinner
+        val spinnerItems = resources.getStringArray(R.array.league)
+        val spinnerAdapter = ArrayAdapter(ctx,
+                android.R.layout.simple_spinner_dropdown_item, spinnerItems)
+        spinner.adapter = spinnerAdapter
         val request = ApiRepository()
         val gson = Gson()
+        val leagueId = arrayOf("4328","4329","4331","4332","4334","4335")
+        var selectedItem : Int
         presenter = MatchPresenter(this, request, gson)
-        presenter.getMatchList("4328", "eventspastleague.php?")
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                selectedItem = spinner.selectedItemPosition
+                presenter.getMatchList(leagueId[selectedItem], "eventspastleague.php?")
+            }
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+
+            }
+        }
     }
 
     override fun showMatchList(data: List<Match>) {
         events.clear()
         events.addAll(data)
 
-        adapter = MainAdapter(events) {
+        adapter = MatchAdapter(events) {
             val intent = Intent(this.activity,DetailMatchActivity::class.java)
             intent.putExtra("eventid",data[adapter.clickedIndex].eventId)
             intent.putExtra("homeid",data[adapter.clickedIndex].homeId)
@@ -74,7 +99,6 @@ class PrevMatchFragment : Fragment(), MatchView {
 
 
     override fun showLoading() {
-        //Log.d("CEKDATA", "SHOWLOADING")
         progressBar?.visible()
 
     }
@@ -82,5 +106,8 @@ class PrevMatchFragment : Fragment(), MatchView {
     override fun hideLoading() {
         progressBar?.invisible()
 
+    }
+    companion object {
+        fun newInstance(): PrevMatchFragment = PrevMatchFragment()
     }
 }

@@ -4,10 +4,9 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.miftakhularzak.footballclubapp.R
 import com.miftakhularzak.footballclubapp.R.id.*
-import com.miftakhularzak.footballclubapp.fragments.FavoriteMatchFragment
+import com.miftakhularzak.footballclubapp.fragments.FavoriteFragment
 import com.miftakhularzak.footballclubapp.fragments.MatchFragment
-import com.miftakhularzak.footballclubapp.fragments.NextMatchFragment
-import com.miftakhularzak.footballclubapp.fragments.PrevMatchFragment
+import com.miftakhularzak.footballclubapp.fragments.TeamFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -18,48 +17,32 @@ class MainActivity : AppCompatActivity() {
 
         bottom_navigation.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
-                next_match_bt -> {
-                    loadNextMatchFragment(savedInstanceState)
-                   // loadMatchFragment(savedInstanceState)
-                }
-                prev_match_bt -> {
-                    loadPrevMatchFragment(savedInstanceState)
+                match_button -> {
+                    loadMatchFragment(savedInstanceState)
 
                 }
-                fav_match_bt ->{
-                    loadFavMatchFragment(savedInstanceState)
+                team_button -> {
+                    loadTeamFragment(savedInstanceState)
+                }
+                fav_button -> {
+                    loadFavoriteFragment(savedInstanceState)
 
                 }
             }
             true
         }
-        bottom_navigation.selectedItemId = next_match_bt
+        bottom_navigation.selectedItemId = match_button
     }
-    private fun loadNextMatchFragment(savedInstanceState: Bundle?) {
+
+    private fun loadTeamFragment(savedInstanceState: Bundle?) {
         if (savedInstanceState == null) {
             supportFragmentManager
                     .beginTransaction()
-                    .replace(R.id.main_container, NextMatchFragment(), NextMatchFragment::class.java.simpleName)
+                    .replace(R.id.main_container, TeamFragment(), TeamFragment::class.java.simpleName)
                     .commit()
         }
     }
 
-    private fun loadPrevMatchFragment(savedInstanceState: Bundle?) {
-        if (savedInstanceState == null) {
-            supportFragmentManager
-                    .beginTransaction()
-                    .replace(R.id.main_container, PrevMatchFragment(), PrevMatchFragment::class.java.simpleName)
-                    .commit()
-        }
-    }
-    private fun loadFavMatchFragment(savedInstanceState: Bundle?) {
-        if (savedInstanceState == null) {
-            supportFragmentManager
-                    .beginTransaction()
-                    .replace(R.id.main_container, FavoriteMatchFragment(), FavoriteMatchFragment::class.java.simpleName)
-                    .commit()
-        }
-    }
     private fun loadMatchFragment(savedInstanceState: Bundle?) {
         if (savedInstanceState == null) {
             supportFragmentManager
@@ -68,6 +51,16 @@ class MainActivity : AppCompatActivity() {
                     .commit()
         }
     }
+
+    private fun loadFavoriteFragment(savedInstanceState: Bundle?) {
+        if (savedInstanceState == null) {
+            supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.main_container, FavoriteFragment(), FavoriteFragment::class.java.simpleName)
+                    .commit()
+        }
+    }
+
 }
 
 
